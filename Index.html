@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weight on Other Planets</title>
+  <style>
+    body {
+      background: radial-gradient(circle at top, #0b0c10, #000000 80%);
+      color: #ffffff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #00b3ff;
+      text-shadow: 0 0 10px #00b3ff;
+    }
+    p {
+      font-size: 1.1em;
+      color: #cce7ff;
+    }
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      width: 200px;
+      text-align: center;
+      font-size: 1em;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #00b3ff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background-color: #0090cc;
+    }
+    .result {
+      margin-top: 30px;
+      font-size: 1.2em;
+      line-height: 1.8;
+    }
+    .planet {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 10px;
+      margin: 10px auto;
+      width: 80%;
+      max-width: 400px;
+      box-shadow: 0 0 10px rgba(0, 179, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      animation: spin 20s linear infinite;
+      box-shadow: 0 0 10px rgba(0, 179, 255, 0.5);
+    }
+    b {
+      color: #FFD700;
+    }
+
+    /* Animation for spinning planets */
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>🌌 Your Weight on Other Planets 🌍</h1>
+  <p>Enter your weight on Earth (in kilograms):</p>
+
+  <input type="number" id="earthWeight" placeholder="e.g. 60">
+  <button onclick="calculateWeight()">Calculate</button>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    // Accurate planetary gravity data (NASA JPL)
+    const gravity = {
+      Mercury: 3.700,
+      Venus: 8.870,
+      Earth: 9.807,
+      Moon: 1.622,
+      Mars: 3.721,
+      Jupiter: 24.790,
+      Saturn: 10.440,
+      Uranus: 8.690,
+      Neptune: 11.150,
+      Pluto: 0.620
+    };
+
+    const planetImages = {
+      Mercury: "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg",
+      Venus: "https://upload.wikimedia.org/wikipedia/commons/e/e5/Venus-real_color.jpg",
+      Earth: "https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg",
+      Moon: "https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg",
+      Mars: "https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg",
+      Jupiter: "https://upload.wikimedia.org/wikipedia/commons/e/e2/Jupiter.jpg",
+      Saturn: "https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg",
+      Uranus: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus2.jpg",
+      Neptune: "https://upload.wikimedia.org/wikipedia/commons/5/56/Neptune_Full.jpg",
+      Pluto: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Nh-pluto-in-true-color_2x_JPEG-edit-frame.jpg"
+    };
+
+    function calculateWeight() {
+      const earthWeight = parseFloat(document.getElementById("earthWeight").value);
+      const resultDiv = document.getElementById("result");
+      if (!earthWeight || earthWeight <= 0) {
+        alert("Please enter a valid weight!");
+        return;
+      }
+
+      resultDiv.innerHTML = "<h2>🪐 Your Weight Across the Solar System:</h2>";
+
+      for (let planet in gravity) {
+        if (planet !== "Earth") {
+          const weight = (earthWeight * gravity[planet] / gravity["Earth"]).toFixed(2);
+          resultDiv.innerHTML += `
+            <div class="planet">
+              <img src="${planetImages[planet]}" alt="${planet}">
+              <div><b>${planet}</b>: ${weight} kg</div>
+            </div>
+          `;
+        }
+      }
+    }
+  </script>
+</body>
+</html>
